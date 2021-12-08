@@ -5,9 +5,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.commands.TeleopDriveCommand;
+import frc.robot.subsystems.DriveTrainSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /**
@@ -17,14 +18,64 @@ import edu.wpi.first.wpilibj2.command.Command;
  * subsystems, commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  /*
+   * The robot's subsystems and commands are defined here...
+   */
 
-  private final ExampleCommand m_autoCommand = new ExampleCommand(m_exampleSubsystem);
+  /**
+   * The robot's drive train.
+   */
+  private final DriveTrainSubsystem m_driveTrain;
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  /**
+   * The left joystick which controls the left side drivetrain motors.
+   */
+  private final Joystick m_leftJoystick;
+
+  /**
+   * The right joystick which controls the right side drivetrain motors.
+   */
+  private final Joystick m_rightJoystick;
+
+  /**
+   * The teleop drive command, which should be run periodically while the robot
+   * is in the teleoperated state.
+   */
+  private final TeleopDriveCommand m_teleopDriveCommand;
+
+  /**
+   * The container for the robot. Contains subsystems, OI devices, and commands.
+   */
   public RobotContainer() {
-    // Configure the button bindings
+    /*
+     * Initialize the m_driveTrain variable.
+     */
+    m_driveTrain = new DriveTrainSubsystem();
+
+    /*
+     * Initilaize the m_leftJoystick and m_rightJoystick variables.
+     */
+    m_leftJoystick = new Joystick(Constants.kLeftJoystickPort);
+    m_rightJoystick = new Joystick(Constants.kRightJoystickPort);
+
+    /*
+     * Initialize the m_teleopDriveCommand variable.
+     */
+    m_teleopDriveCommand = new TeleopDriveCommand(m_driveTrain, m_leftJoystick, m_rightJoystick);
+
+    /*
+     * We have created our TeleopDriveCommand object, but we still need to
+     * confiogure when the command is run. Since we want our drive train to
+     * always respond to driver input, we need to configure this command to be
+     * run periodically. To do this, we can set the DriveTrainSubsystem's
+     * default command to be our TeleopDriveCommand using the
+     * DriveTrainSubsystem's setDefaultCommand method.
+     */
+    m_driveTrain.setDefaultCommand(m_teleopDriveCommand);
+
+    /*
+     * Configure the button bindings. Unused in this example.
+     */
     configureButtonBindings();
   }
 
@@ -34,7 +85,11 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
-  private void configureButtonBindings() {}
+  private void configureButtonBindings() {
+    /*
+     * Nothing needed here in this example.
+     */
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -42,7 +97,9 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return m_autoCommand;
+    /*
+     * No autonomous commands are used in this example.
+     */
+    return null;
   }
 }
