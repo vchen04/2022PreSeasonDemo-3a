@@ -51,7 +51,7 @@ public class TeleopDriveCommand extends CommandBase {
     m_leftJoystick = leftJoystick;
     m_rightJoystick = rightJoystick;
 
-    /* 
+    /*
      * Use addRequirements() here to declare subsystem dependencies.
      */
     addRequirements(driveTrain);
@@ -80,14 +80,16 @@ public class TeleopDriveCommand extends CommandBase {
 
   /**
    * Called once the command ends or is interrupted.
+   * 
    * @param interrupted if the command was interrupted
    */
   @Override
   public void end(boolean interrupted) {
   }
 
-  /** 
+  /**
    * Returns true when the command should end.
+   * 
    * @return if the command should end
    */
   @Override
